@@ -120,7 +120,7 @@ export function HexagonBackground({
       />
 
       {/* Content layer */}
-      {children && <div className="relative z-10 h-full w-full">{children}</div>}
+      {children && <div className="relative z-10 h-full w-full overflow-y-auto">{children}</div>}
     </div>
   )
 }

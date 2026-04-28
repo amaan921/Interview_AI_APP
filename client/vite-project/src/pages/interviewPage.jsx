@@ -4,12 +4,13 @@ import { motion } from 'motion/react'
 import { RiRobot2Fill } from 'react-icons/ri'
 import { LuLogOut } from 'react-icons/lu'
 import { PiCoin } from 'react-icons/pi'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Navigate } from 'react-router-dom'
 import { clearCurrentUser, updateCredits } from '../redux/userSlice'
 import { ServerURL } from '../App'
 import Step1Setup from '../components/step1Setup'
 import Step2Interview from '../components/step2Interview'
 import Step3Report from '../components/step3Report'
+import HexagonBackground from '../components/HexagonBackground'
 
 function InterviewPage() {
   const currentUser = useSelector(state => state.user.currentUser)
@@ -129,22 +130,7 @@ function InterviewPage() {
 
   // ── Auth guard ─────────────────────────────────────────────────────────
   if (!currentUser) {
-    return (
-      <div className='w-full min-h-screen bg-[#f3f3f3] flex items-center justify-center'>
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className='text-center'
-        >
-          <p className='text-gray-600 text-lg mb-4'>Please log in to continue</p>
-          <button onClick={() => navigate('/auth')}
-            className='bg-black text-white px-6 py-3 rounded-xl font-medium hover:bg-gray-800 transition'>
-            Go to Login
-          </button>
-        </motion.div>
-      </div>
-    )
+    return <Navigate to="/auth" replace />
   }
 
   // ── Navbar ─────────────────────────────────────────────────────────────
@@ -153,24 +139,29 @@ function InterviewPage() {
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
-      className='bg-white shadow-sm border-b border-gray-200'
+      className='sticky top-0 z-50 px-6 py-4'
+      style={{
+        background: 'rgba(10, 10, 10, 0.6)',
+        backdropFilter: 'blur(12px)',
+        borderBottom: '1px solid rgba(255,255,255,0.08)',
+      }}
     >
-      <div className='max-w-7xl mx-auto px-6 py-4 flex justify-between items-center'>
+      <div className='max-w-7xl mx-auto flex justify-between items-center'>
         <div className='flex items-center gap-3 cursor-pointer' onClick={() => navigate('/')}>
-          <div className='bg-black text-white p-2 rounded-lg'>
+          <div className='bg-white text-black p-2 rounded-lg'>
             <RiRobot2Fill size={20} />
           </div>
-          <h1 className='text-xl font-bold'>InterviewIQ.AI</h1>
+          <h1 className='text-xl font-bold text-white tracking-tight'>InterviewIQ<span className='text-cyan-400'>.AI</span></h1>
         </div>
         <div className='flex items-center gap-6'>
           <div className='text-right'>
-            <p className='text-gray-900 font-semibold'>{currentUser.name}</p>
-            <p className='text-sm text-gray-500 flex items-center gap-1'>
+            <p className='text-white font-semibold'>{currentUser.name}</p>
+            <p className='text-sm text-gray-400 flex items-center gap-1'>
               <PiCoin size={16} />{currentUser.credits} Credits
             </p>
           </div>
           <button onClick={handleLogout}
-            className='flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition'>
+            className='flex items-center gap-2 bg-red-500/80 hover:bg-red-500 text-white px-4 py-2 rounded-lg transition'>
             <LuLogOut size={15} />Logout
           </button>
         </div>
@@ -181,20 +172,22 @@ function InterviewPage() {
   // ── Evaluating state (loading screen) ──────────────────────────────────
   if (phase === 'evaluating') {
     return (
-      <div className='w-full min-h-screen bg-white'>
-        {Navbar}
-        <div className='flex flex-col items-center justify-center h-[70vh] gap-6'>
-          <motion.div
-            animate={{ rotate: 360 }}
-            transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
-            className='w-16 h-16 border-4 border-green-200 border-t-green-500 rounded-full'
-          />
-          <div className='text-center'>
-            <h2 className='text-2xl font-bold text-gray-900 mb-2'>AI is Evaluating Your Answers</h2>
-            <p className='text-gray-500'>Analyzing responses, scoring performance, generating feedback...</p>
+      <HexagonBackground>
+        <div className='w-full min-h-screen overflow-y-auto'>
+          {Navbar}
+          <div className='flex flex-col items-center justify-center h-[70vh] gap-6'>
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
+              className='w-16 h-16 border-4 border-cyan-800 border-t-cyan-400 rounded-full'
+            />
+            <div className='text-center'>
+              <h2 className='text-2xl font-bold text-white mb-2'>AI is Evaluating Your Answers</h2>
+              <p className='text-gray-400'>Analyzing responses, scoring performance, generating feedback...</p>
+            </div>
           </div>
         </div>
-      </div>
+      </HexagonBackground>
     )
   }
 
@@ -213,35 +206,37 @@ function InterviewPage() {
 
   // ── Setup & Report phases (share the navbar) ──────────────────────────
   return (
-    <div className='w-full min-h-screen bg-white'>
-      {Navbar}
+    <HexagonBackground>
+      <div className='w-full min-h-screen overflow-y-auto'>
+        {Navbar}
 
-      {/* Error banner */}
-      {error && (
-        <div className='max-w-3xl mx-auto px-6 pt-6'>
-          <div className='bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl text-sm'>
-            {error}
+        {/* Error banner */}
+        {error && (
+          <div className='max-w-3xl mx-auto px-6 pt-6'>
+            <div className='bg-red-900/40 border border-red-500/30 text-red-300 px-4 py-3 rounded-xl text-sm'>
+              {error}
+            </div>
           </div>
-        </div>
-      )}
+        )}
 
-      {phase === 'setup' && (
-        <Step1Setup onStart={handleStart} loading={loading} credits={currentUser?.credits ?? 0} />
-      )}
+        {phase === 'setup' && (
+          <Step1Setup onStart={handleStart} loading={loading} credits={currentUser?.credits ?? 0} />
+        )}
 
-      {phase === 'report' && (
-        <Step3Report
-          report={report}
-          questions={questions}
-          answers={answers}
-          role={config.role}
-          experience={config.experience}
-          interviewType={config.interviewType}
-          duration={duration}
-          onRestart={handleRestart}
-        />
-      )}
-    </div>
+        {phase === 'report' && (
+          <Step3Report
+            report={report}
+            questions={questions}
+            answers={answers}
+            role={config.role}
+            experience={config.experience}
+            interviewType={config.interviewType}
+            duration={duration}
+            onRestart={handleRestart}
+          />
+        )}
+      </div>
+    </HexagonBackground>
   )
 }
 

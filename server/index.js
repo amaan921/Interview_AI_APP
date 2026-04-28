@@ -7,6 +7,7 @@ import authRouter from './routes/auth.routes.js';
 dotenv.config();
 import userRouter from './routes/user.Routes.js';
 import interviewRouter from './routes/interview.routes.js';
+import paymentRouter from './routes/payment.routes.js';
 
 
 const app = express();
@@ -24,6 +25,7 @@ app.use(cookieParser());
 app.use('/api/auth', authRouter);
 app.use('/api/user', userRouter);
 app.use('/api/interview', interviewRouter);
+app.use('/api/payment', paymentRouter);
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);

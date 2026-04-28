@@ -37,10 +37,10 @@ function Step1Setup({ onStart, loading, credits = 100 }) {
                 transition={{ duration: 0.8 }}
                 className='text-center mb-10'
             >
-                <h2 className='text-4xl md:text-5xl font-bold text-gray-900 mb-4'>
-                    Configure Your <span className='text-green-500'>Interview</span>
+                <h2 className='text-4xl md:text-5xl font-bold text-white mb-4'>
+                    Configure Your <span className='text-cyan-400'>Interview</span>
                 </h2>
-                <p className='text-gray-600 text-lg max-w-xl mx-auto'>
+                <p className='text-gray-400 text-lg max-w-xl mx-auto'>
                     Upload your resume for AI-tailored questions, or fill in details manually.
                 </p>
             </motion.div>
@@ -49,17 +49,21 @@ function Step1Setup({ onStart, loading, credits = 100 }) {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.15 }}
-                className='bg-white rounded-2xl shadow-lg border border-gray-200 p-8'
+                className='rounded-2xl p-8 border border-gray-700'
+                style={{
+                    background: 'rgba(15, 15, 15, 0.7)',
+                    backdropFilter: 'blur(12px)',
+                }}
             >
                 {/* Resume Upload — always shown at top */}
                 <div className='mb-6'>
-                    <label className='block text-sm font-semibold text-gray-700 mb-2'>
+                    <label className='block text-sm font-semibold text-gray-300 mb-2'>
                         <FiUpload className='inline mr-2' />
-                        Upload Resume <span className='text-gray-400 font-normal'>(PDF only)</span>
+                        Upload Resume <span className='text-gray-500 font-normal'>(PDF only)</span>
                     </label>
 
                     {!resumeFile ? (
-                        <label className='flex items-center justify-center gap-2 w-full border-2 border-dashed border-gray-300 rounded-xl px-4 py-8 text-gray-500 bg-gray-50 hover:bg-gray-100 hover:border-green-400 cursor-pointer transition'>
+                        <label className='flex items-center justify-center gap-2 w-full border-2 border-dashed border-gray-600 rounded-xl px-4 py-8 text-gray-400 bg-gray-900/40 hover:bg-gray-800/60 hover:border-cyan-500/50 cursor-pointer transition'>
                             <FiUpload size={22} />
                             <span>Click to upload your resume PDF</span>
                             <input
@@ -70,19 +74,19 @@ function Step1Setup({ onStart, loading, credits = 100 }) {
                             />
                         </label>
                     ) : (
-                        <div className='flex items-center justify-between bg-green-50 border border-green-200 rounded-xl px-4 py-4'>
+                        <div className='flex items-center justify-between bg-cyan-900/30 border border-cyan-500/30 rounded-xl px-4 py-4'>
                             <div className='flex items-center gap-3'>
-                                <div className='bg-green-100 p-2 rounded-lg'>
-                                    <FiUpload size={18} className='text-green-600' />
+                                <div className='bg-cyan-500/20 p-2 rounded-lg'>
+                                    <FiUpload size={18} className='text-cyan-400' />
                                 </div>
                                 <div>
-                                    <p className='text-sm font-semibold text-gray-800'>{resumeFile.name}</p>
-                                    <p className='text-xs text-gray-500'>{(resumeFile.size / 1024).toFixed(1)} KB</p>
+                                    <p className='text-sm font-semibold text-white'>{resumeFile.name}</p>
+                                    <p className='text-xs text-gray-400'>{(resumeFile.size / 1024).toFixed(1)} KB</p>
                                 </div>
                             </div>
                             <button
                                 onClick={() => setResumeFile(null)}
-                                className='text-red-500 hover:bg-red-50 p-2 rounded-lg transition'
+                                className='text-red-400 hover:bg-red-900/30 p-2 rounded-lg transition'
                             >
                                 <FiX size={18} />
                             </button>
@@ -90,7 +94,7 @@ function Step1Setup({ onStart, loading, credits = 100 }) {
                     )}
 
                     {resumeFile && (
-                        <p className='text-sm text-green-600 mt-2 font-medium'>
+                        <p className='text-sm text-cyan-400 mt-2 font-medium'>
                             ✓ AI will extract your skills, experience, and projects to generate tailored interview questions.
                         </p>
                     )}
@@ -99,9 +103,9 @@ function Step1Setup({ onStart, loading, credits = 100 }) {
                 {/* Divider with OR */}
                 {!resumeFile && (
                     <div className='flex items-center gap-4 mb-6'>
-                        <div className='flex-1 h-px bg-gray-200'></div>
-                        <span className='text-sm text-gray-400 font-medium'>OR FILL MANUALLY</span>
-                        <div className='flex-1 h-px bg-gray-200'></div>
+                        <div className='flex-1 h-px bg-gray-700'></div>
+                        <span className='text-sm text-gray-500 font-medium'>OR FILL MANUALLY</span>
+                        <div className='flex-1 h-px bg-gray-700'></div>
                     </div>
                 )}
 
@@ -110,14 +114,14 @@ function Step1Setup({ onStart, loading, credits = 100 }) {
                     <>
                         {/* Role */}
                         <div className='mb-6'>
-                            <label className='block text-sm font-semibold text-gray-700 mb-2'>
+                            <label className='block text-sm font-semibold text-gray-300 mb-2'>
                                 <HiOutlineBriefcase className='inline mr-2' />
                                 Job Role
                             </label>
                             <select
                                 value={role}
                                 onChange={e => setRole(e.target.value)}
-                                className='w-full border border-gray-300 rounded-xl px-4 py-3 text-gray-800 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-green-400 transition'
+                                className='w-full border border-gray-600 rounded-xl px-4 py-3 text-white bg-gray-900/60 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition'
                             >
                                 {roles.map(r => (
                                     <option key={r} value={r}>{r}</option>
@@ -127,7 +131,7 @@ function Step1Setup({ onStart, loading, credits = 100 }) {
 
                         {/* Experience */}
                         <div className='mb-6'>
-                            <label className='block text-sm font-semibold text-gray-700 mb-2'>
+                            <label className='block text-sm font-semibold text-gray-300 mb-2'>
                                 <BsLightningCharge className='inline mr-2' />
                                 Experience Level
                             </label>
@@ -137,8 +141,8 @@ function Step1Setup({ onStart, loading, credits = 100 }) {
                                         key={exp}
                                         onClick={() => setExperience(exp)}
                                         className={`flex-1 py-3 rounded-xl font-medium text-sm transition border ${experience === exp
-                                                ? 'bg-green-500 text-white border-green-500 shadow-md'
-                                                : 'bg-gray-50 text-gray-700 border-gray-300 hover:bg-gray-100'
+                                                ? 'bg-cyan-500 text-white border-cyan-500 shadow-md shadow-cyan-500/20'
+                                                : 'bg-gray-900/40 text-gray-300 border-gray-600 hover:bg-gray-800/60 hover:border-gray-500'
                                             }`}
                                     >
                                         {exp}
@@ -149,7 +153,7 @@ function Step1Setup({ onStart, loading, credits = 100 }) {
 
                         {/* Interview Type */}
                         <div className='mb-6'>
-                            <label className='block text-sm font-semibold text-gray-700 mb-2'>
+                            <label className='block text-sm font-semibold text-gray-300 mb-2'>
                                 <IoSparkles className='inline mr-2' />
                                 Interview Type
                             </label>
@@ -159,8 +163,8 @@ function Step1Setup({ onStart, loading, credits = 100 }) {
                                         key={t}
                                         onClick={() => setInterviewType(t)}
                                         className={`py-3 rounded-xl font-medium text-sm transition border ${interviewType === t
-                                                ? 'bg-green-500 text-white border-green-500 shadow-md'
-                                                : 'bg-gray-50 text-gray-700 border-gray-300 hover:bg-gray-100'
+                                                ? 'bg-cyan-500 text-white border-cyan-500 shadow-md shadow-cyan-500/20'
+                                                : 'bg-gray-900/40 text-gray-300 border-gray-600 hover:bg-gray-800/60 hover:border-gray-500'
                                             }`}
                                     >
                                         {t}
@@ -173,7 +177,7 @@ function Step1Setup({ onStart, loading, credits = 100 }) {
 
                 {/* Number of Questions — always shown */}
                 <div className='mb-8'>
-                    <label className='block text-sm font-semibold text-gray-700 mb-2'>
+                    <label className='block text-sm font-semibold text-gray-300 mb-2'>
                         Number of Questions
                     </label>
                     <div className='flex gap-3'>
@@ -182,8 +186,8 @@ function Step1Setup({ onStart, loading, credits = 100 }) {
                                 key={c}
                                 onClick={() => setQuestionCount(c)}
                                 className={`flex-1 py-3 rounded-xl font-medium text-sm transition border ${questionCount === c
-                                        ? 'bg-green-500 text-white border-green-500 shadow-md'
-                                        : 'bg-gray-50 text-gray-700 border-gray-300 hover:bg-gray-100'
+                                        ? 'bg-cyan-500 text-white border-cyan-500 shadow-md shadow-cyan-500/20'
+                                        : 'bg-gray-900/40 text-gray-300 border-gray-600 hover:bg-gray-800/60 hover:border-gray-500'
                                     }`}
                             >
                                 {c} Questions
@@ -193,7 +197,7 @@ function Step1Setup({ onStart, loading, credits = 100 }) {
                 </div>
 
                 {insufficientCredits && (
-                    <div className='mb-6 bg-amber-50 border border-amber-200 text-amber-800 px-4 py-3 rounded-xl text-sm'>
+                    <div className='mb-6 bg-amber-900/30 border border-amber-500/30 text-amber-300 px-4 py-3 rounded-xl text-sm'>
                         You need {CREDITS_PER_INTERVIEW} credits to start an interview. You have {credits} credits.
                     </div>
                 )}
@@ -204,8 +208,8 @@ function Step1Setup({ onStart, loading, credits = 100 }) {
                     onClick={handleSubmit}
                     disabled={loading || insufficientCredits}
                     className={`w-full py-4 rounded-full font-semibold text-lg transition flex items-center justify-center gap-2 ${loading || insufficientCredits
-                            ? 'bg-gray-400 text-white cursor-not-allowed'
-                            : 'bg-black text-white hover:bg-gray-800'
+                            ? 'bg-gray-700 text-gray-400 cursor-not-allowed'
+                            : 'bg-white text-black hover:bg-gray-100 shadow-lg shadow-white/10'
                         }`}
                 >
                     {loading ? (
@@ -233,17 +237,17 @@ function Step1Setup({ onStart, loading, credits = 100 }) {
                 className='mt-6 flex flex-wrap gap-3 justify-center'
             >
                 {resumeFile ? (
-                    <span className='bg-green-100 text-green-700 px-4 py-1.5 rounded-full text-sm font-medium'>
+                    <span className='bg-cyan-500/15 text-cyan-400 px-4 py-1.5 rounded-full text-sm font-medium border border-cyan-500/20'>
                         📄 Resume: {resumeFile.name}
                     </span>
                 ) : (
                     <>
-                        <span className='bg-green-100 text-green-700 px-4 py-1.5 rounded-full text-sm font-medium'>{role}</span>
-                        <span className='bg-blue-100 text-blue-700 px-4 py-1.5 rounded-full text-sm font-medium'>{experience}</span>
-                        <span className='bg-purple-100 text-purple-700 px-4 py-1.5 rounded-full text-sm font-medium'>{interviewType}</span>
+                        <span className='bg-cyan-500/15 text-cyan-400 px-4 py-1.5 rounded-full text-sm font-medium border border-cyan-500/20'>{role}</span>
+                        <span className='bg-violet-500/15 text-violet-400 px-4 py-1.5 rounded-full text-sm font-medium border border-violet-500/20'>{experience}</span>
+                        <span className='bg-purple-500/15 text-purple-400 px-4 py-1.5 rounded-full text-sm font-medium border border-purple-500/20'>{interviewType}</span>
                     </>
                 )}
-                <span className='bg-orange-100 text-orange-700 px-4 py-1.5 rounded-full text-sm font-medium'>{questionCount} Qs</span>
+                <span className='bg-amber-500/15 text-amber-400 px-4 py-1.5 rounded-full text-sm font-medium border border-amber-500/20'>{questionCount} Qs</span>
             </motion.div>
         </div>
     )
