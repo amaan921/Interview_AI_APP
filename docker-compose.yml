@@ -1,0 +1,62 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5001:5001"
+    environment:
+      MONGODB_URL: mongodb://mongo:27017/interview-ai
+      JWT_SECRET: dev-secret-key-change-in-production
+      OPENROUTER_API_KEY: ${OPENROUTER_API_KEY}
+      RAZORPAY_KEY_ID: ${RAZORPAY_KEY_ID}
+      RAZORPAY_KEY_SECRET: ${RAZORPAY_KEY_SECRET}
+      NODE_ENV: development
+    depends_on:
+      - mongo
+    volumes:
+      - ./server:/app
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:5001', (r) => process.exit(r.statusCode === 200 ? 0 : 1))"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  frontend:
+    build:
+      context: ./client/vite-project
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    environment:
+      VITE_API_URL: http://localhost:5001
+    depends_on:
+      - backend
+    volumes:
+      - ./client/vite-project/src:/app/src
+
+  mongo:
+    image: mongo:6-alpine
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: interview-ai
+    volumes:
+      - mongo-data:/data/db
+      - mongo-config:/data/configdb
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  mongo-data:
+  mongo-config:
+
+networks:
+  default:
+    name: interview-ai-network
